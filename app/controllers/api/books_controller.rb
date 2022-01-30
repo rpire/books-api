@@ -2,7 +2,7 @@ class Api::BooksController < ApplicationController
   before_action :authenticate_user!
 
   def index
-    @books = Book.all
+    @books = current_user.books
 
     render json: @books
   end
