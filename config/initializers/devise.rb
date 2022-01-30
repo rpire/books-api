@@ -261,7 +261,8 @@ Devise.setup do |config|
   #
   # If you have any extra navigational formats, like :iphone or :mobile, you
   # should add them to the navigational formats lists.
-  #
+  config.navigational_formats = []
+
   # The "*/*" below is required to match Internet Explorer requests.
   # config.navigational_formats = ['*/*', :html]
 
@@ -308,4 +309,15 @@ Devise.setup do |config|
   # When set to false, does not sign a user in automatically after their password is
   # changed. Defaults to true, so a user is signed in automatically after changing a password.
   # config.sign_in_after_change_password = true
+
+  config.jwt do |jwt|
+    jwt.secret = '123456789'
+        jwt.dispatch_requests = [
+        ['POST', %r{^/api/login$}]
+      ]
+      jwt.revocation_requests = [
+        ['DELETE', %r{^/api/logout$}]
+      ]
+      jwt.expiration_time = 1.day.to_i
+  end
 end
