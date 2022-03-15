@@ -5,7 +5,8 @@ User.create(
   name: 'El Matatan',
   bio: 'El matatan de la lectura.',
   email: 'elmatatan3000@email.com',
-  password: '123456'
+  password: '123456',
+  role: 'admin'
 )
 
 User.create(
@@ -13,6 +14,13 @@ User.create(
   bio: 'Me gustan los libros de realismo mágico.',
   email: 'rubenpire7@gmail.com',
   password: '123456',
+)
+
+User.create(
+  name: 'Guest',
+  bio: 'Have fun with this guest user account!',
+  email: 'testuser@email.com',
+  password: 'test123',
 )
 
 Book.create(
