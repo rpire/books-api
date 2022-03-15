@@ -13,7 +13,7 @@ Rails.application.routes.draw do
     }
 
   namespace :api, defaults: { format: :json } do
-    resources :user
+    resources :users
     resources :books
   end
 end
