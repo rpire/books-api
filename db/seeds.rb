@@ -4,7 +4,7 @@
 User.create(
   name: 'El Matatan',
   bio: 'El matatan de la lectura.',
-  email: 'elmatatan3000@email.com',
+  email: 'elmatatan@email.com',
   password: '123456',
   role: 'admin'
 )
