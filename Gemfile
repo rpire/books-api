@@ -14,6 +14,7 @@ gem 'puma', '~> 5.0'
 
 # Use Devise for user authentication
 gem 'devise'
+# Use Devise-JWT to generate bearer tokens
 gem 'devise-jwt'
 
 # Build JSON APIs with ease [https://github.com/rails/jbuilder]
@@ -41,6 +42,8 @@ gem 'bootsnap', require: false
 # gem "rack-cors"
 
 group :development, :test do
+  # RSpec testing library for Ruby on Rails
+  gem 'rspec-rails'
   # See https://guides.rubyonrails.org/debugging_rails_applications.html#debugging-with-the-debug-gem
   gem 'debug', platforms: %i[mri mingw x64_mingw]
 end

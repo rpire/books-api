@@ -5,7 +5,7 @@ class Api::UsersController < ApplicationController
   def index
     @users = User.all
 
-    render json: @users
+    render json: @users.map { |user| { user: user, books: user.books } }
   end
 
   def show
@@ -31,6 +31,6 @@ class Api::UsersController < ApplicationController
   end
 
   def user_params
-    params.require(:user).permit(:name, :bio, :email, :password)
+    params.require(:user).permit(:name, :bio, :icon, :email, :password)
   end
 end
