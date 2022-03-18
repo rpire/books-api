@@ -70,6 +70,7 @@ GEM
     bootsnap (1.10.2)
       msgpack (~> 1.2)
     builder (3.2.4)
+    cancancan (3.3.0)
     concurrent-ruby (1.1.9)
     crass (1.0.6)
     debug (1.4.0)
@@ -213,6 +214,7 @@ PLATFORMS
 
 DEPENDENCIES
   bootsnap
+  cancancan
   debug
   devise
   devise-jwt
