@@ -14,8 +14,12 @@ gem 'puma', '~> 5.0'
 
 # Use Devise for user authentication
 gem 'devise'
+
 # Use Devise-JWT to generate bearer tokens
 gem 'devise-jwt'
+
+# Use CanCanCan for user authorization
+gem 'cancancan'
 
 # Build JSON APIs with ease [https://github.com/rails/jbuilder]
 # gem "jbuilder"
