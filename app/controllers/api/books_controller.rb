@@ -1,6 +1,7 @@
 class Api::BooksController < ApplicationController
   before_action :set_book, only: %i[show update destroy]
   before_action :authenticate_user!
+  load_and_authorize_resource
 
   def index
     @books = current_user.books

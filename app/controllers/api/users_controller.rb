@@ -1,9 +1,10 @@
 class Api::UsersController < ApplicationController
   before_action :set_user, only: %i[show update destroy]
   before_action :authenticate_user!
+  load_and_authorize_resource
 
   def index
-    @users = User.all
+    @users = User.includes(:books)
 
     render json: @users.map { |user| { user: user, books: user.books } }
   end
