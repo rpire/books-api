@@ -5,26 +5,10 @@ RSpec.describe 'devise/registrations', type: :request do
     post('register user') do
       tags 'User Registration'
       consumes 'application/json'
-      parameter name: :registration, in: :body, schema: {
-        type: :object,
-        properties: {
-          user: {
-            name: :string,
-            email: :string,
-            password: :string
-          }
-        },
-        required: %i[name email password]
-      }
+      parameter name: :registration, in: :body, schema: { '$ref' => '#components/schemas/resgistration' }
       response(200, 'successful') do
         let(:registration) do
-          {
-            user: {
-              name: 'Ruben',
-              email: 'rpire@email.com',
-              password: '12345678'
-            }
-          }
+          { user: { name: 'Ruben', email: 'rpire@email.com', password: '12345678' } }
         end
         after do |example|
           example.metadata[:response][:content] = {
