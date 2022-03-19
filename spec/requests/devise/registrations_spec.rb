@@ -14,10 +14,10 @@ RSpec.describe 'devise/registrations', type: :request do
             password: :string
           }
         },
-        required: [:name, :email, :password]
+        required: %i[name email password]
       }
       response(200, 'successful') do
-        let(:registration) {
+        let(:registration) do
           {
             user: {
               name: 'Ruben',
@@ -25,7 +25,7 @@ RSpec.describe 'devise/registrations', type: :request do
               password: '12345678'
             }
           }
-        }
+        end
         after do |example|
           example.metadata[:response][:content] = {
             'application/json' => {

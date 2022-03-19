@@ -40,10 +40,9 @@ RSpec.describe 'api/books', type: :request do
   end
 
   path '/api/books' do
-
     get('list books') do
       tags 'Books'
-      security [ bearer_auth: [] ]
+      security [bearer_auth: []]
 
       response(200, 'successful') do
         let(:Authorization) { @auth }
@@ -60,7 +59,7 @@ RSpec.describe 'api/books', type: :request do
 
     post('create book') do
       tags 'Books'
-      security [ bearer_auth: [] ]
+      security [bearer_auth: []]
       consumes 'application/json'
       parameter name: :book, in: :body, schema: {
         type: :object,
@@ -74,12 +73,12 @@ RSpec.describe 'api/books', type: :request do
             current_page: { type: :integer }
           }
         },
-        required: [ 'title', 'author', 'category', 'current_chapter', 'num_of_pages', 'current_page']
+        required: %w[title author category current_chapter num_of_pages current_page]
       }
 
       response(201, 'successful') do
         let(:Authorization) { @auth }
-        let(:book) {
+        let(:book) do
           {
             book: {
               title: 'Harry Potter and the Philosopher\'s Stone',
@@ -90,7 +89,7 @@ RSpec.describe 'api/books', type: :request do
               current_page: 88
             }
           }
-        }
+        end
         after do |example|
           example.metadata[:response][:content] = {
             'application/json' => {
@@ -109,7 +108,7 @@ RSpec.describe 'api/books', type: :request do
     get('show book') do
       tags 'Books'
       produces 'application/json', 'application/xml'
-      security [ bearer_auth: [] ]
+      security [bearer_auth: []]
       response(200, 'successful') do
         let(:Authorization) { @auth }
         let(:id) { @book_one.id }
@@ -126,7 +125,7 @@ RSpec.describe 'api/books', type: :request do
 
     put('update book') do
       tags 'Books'
-      security [ bearer_auth: [] ]
+      security [bearer_auth: []]
       consumes 'application/json'
       produces 'application/json', 'application/xml'
       parameter name: :book, in: :body, schema: {
@@ -141,13 +140,13 @@ RSpec.describe 'api/books', type: :request do
             current_page: { type: :integer }
           }
         },
-        required: [ 'title', 'author', 'category', 'current_chapter', 'num_of_pages', 'current_page']
+        required: %w[title author category current_chapter num_of_pages current_page]
       }
 
       response(202, 'successful') do
         let(:Authorization) { @auth }
         let(:id) { @book_one.id }
-        let(:book) {
+        let(:book) do
           {
             book: {
               title: 'Harry Potter and the Philosopher\'s Stone',
@@ -158,7 +157,7 @@ RSpec.describe 'api/books', type: :request do
               current_page: 77
             }
           }
-        }
+        end
 
         after do |example|
           example.metadata[:response][:content] = {
@@ -173,7 +172,7 @@ RSpec.describe 'api/books', type: :request do
 
     delete('delete book') do
       tags 'Books'
-      security [ bearer_auth: [] ]
+      security [bearer_auth: []]
 
       response(204, 'successful') do
         let(:Authorization) { @auth }
