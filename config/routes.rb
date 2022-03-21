@@ -1,6 +1,7 @@
 Rails.application.routes.draw do
-  mount Rswag::Ui::Engine => '/api-docs'
+  mount Rswag::Ui::Engine => '/'
   mount Rswag::Api::Engine => '/api-docs'
+
   devise_for :users,
     defaults: { format: :json },
     path: '',
@@ -15,7 +16,8 @@ Rails.application.routes.draw do
     }
 
   namespace :api, defaults: { format: :json } do
-    resources :users
+    resources :users do
+    end
     resources :books
   end
 end
