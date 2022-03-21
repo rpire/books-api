@@ -1,3 +1,5 @@
+require 'devise/jwt/test_helpers'
+
 module Mocks
   def generate_user
     @user = User.create(
@@ -7,6 +9,21 @@ module Mocks
       email: 'hp_fan@email.com',
       password: 'expeliarmus'
     )
+  end
+
+  def generate_admin
+    @admin = User.create(
+      name: 'Average Anoying Admin',
+      bio: 'I come to destroy your user\'s dreams.',
+      icon: 4,
+      email: 'adminuser@email.com',
+      password: 'comeetyourmaker',
+      role: 'admin'
+    )
+  end
+
+  def authenticate(user)
+    @token = Devise::JWT::TestHelpers.auth_headers({}, user).values.first
   end
 
   def generate_books
