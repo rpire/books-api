@@ -1,26 +1,26 @@
 require 'swagger_helper'
 
-RSpec.describe 'devise/registrations', type: :request do
+RSpec.describe 'devise/sessions', type: :request do
   include Mocks
 
   before :all do
     generate_user
-    authenticate(@user)
   end
 
   after :all do
     @user.destroy
   end
 
-  path '/api/signup' do
-    post('Register a new user') do
-      tags 'Registrations'
+  path '/api/login' do
+    post('Log into a new session') do
+      tags 'Sessions'
       consumes 'application/json'
-      parameter name: :registration, in: :body, schema: { '$ref' => '#components/schemas/registration' }
+      parameter name: :session, in: :body, schema: { '$ref' => '#components/schemas/session' }
 
       response(200, 'successful') do
-        let(:registration) do
-          { user: { name: 'Ruben', email: 'rpire@email.com', password: '12345678' } }
+        header 'Authorization', type: :string, description: 'Bearer token in JWT format'
+        let(:session) do
+          { user: { email: 'hp_fan@email.com', password: 'expeliarmus' } }
         end
         after do |example|
           example.metadata[:response][:content] = {
