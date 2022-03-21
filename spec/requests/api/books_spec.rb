@@ -1,5 +1,4 @@
 require 'swagger_helper'
-require 'devise/jwt/test_helpers'
 
 RSpec.describe 'api/books', type: :request do
   include Mocks
@@ -7,6 +6,7 @@ RSpec.describe 'api/books', type: :request do
   before :all do
     generate_user
     generate_books
+    authenticate(@user)
 
     @example = {
       book: {
@@ -18,8 +18,6 @@ RSpec.describe 'api/books', type: :request do
         current_page: 88
       }
     }
-
-    @auth = Devise::JWT::TestHelpers.auth_headers({}, @user).values.first
   end
 
   after :all do
@@ -28,11 +26,11 @@ RSpec.describe 'api/books', type: :request do
   end
 
   path '/api/books' do
-    get('list books') do
+    get('List the current user\'s books') do
       tags 'Books'
       security [bearer_auth: []]
       response(200, 'successful') do
-        let(:Authorization) { @auth }
+        let(:Authorization) { @token }
         after do |example|
           example.metadata[:response][:content] = {
             'application/json' => { example: JSON.parse(response.body, symbolize_names: true) }
@@ -42,14 +40,14 @@ RSpec.describe 'api/books', type: :request do
       end
     end
 
-    post('create book') do
+    post('Create a new book') do
       tags 'Books'
       security [bearer_auth: []]
       consumes 'application/json'
       parameter name: :book, in: :body, schema: { '$ref' => '#/components/schemas/book' }
 
       response(201, 'successful') do
-        let(:Authorization) { @auth }
+        let(:Authorization) { @token }
         let(:book) { @example }
         after do |example|
           example.metadata[:response][:content] = {
@@ -66,12 +64,12 @@ RSpec.describe 'api/books', type: :request do
   path '/api/books/{id}' do
     parameter name: 'id', in: :path, type: :integer, description: 'Book\'s ID'
 
-    get('show book') do
+    get('Display information of the book with the provided ID') do
       tags 'Books'
       produces 'application/json', 'application/xml'
       security [bearer_auth: []]
       response(200, 'successful') do
-        let(:Authorization) { @auth }
+        let(:Authorization) { @token }
         let(:id) { @book_one.id }
         after do |example|
           example.metadata[:response][:content] = {
@@ -84,7 +82,7 @@ RSpec.describe 'api/books', type: :request do
       end
     end
 
-    put('update book') do
+    put('Edit information of the book with the provided ID') do
       tags 'Books'
       security [bearer_auth: []]
       consumes 'application/json'
@@ -92,7 +90,7 @@ RSpec.describe 'api/books', type: :request do
       parameter name: :book, in: :body, schema: { '$ref' => '#/components/schemas/book' }
 
       response(202, 'successful') do
-        let(:Authorization) { @auth }
+        let(:Authorization) { @token }
         let(:id) { @book_one.id }
         let(:book) { @example }
 
@@ -105,12 +103,12 @@ RSpec.describe 'api/books', type: :request do
       end
     end
 
-    delete('delete book') do
+    delete('Delete the book with the provided ID') do
       tags 'Books'
       security [bearer_auth: []]
 
       response(204, 'successful') do
-        let(:Authorization) { @auth }
+        let(:Authorization) { @token }
         let(:id) { @book_two.id }
         run_test!
       end
