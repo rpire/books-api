@@ -7,43 +7,72 @@ RSpec.configure do |config|
   config.swagger_docs = {
     'v1/swagger.yaml' => {
       openapi: '3.0.1',
-      info: { title: 'API V1', version: 'v1' },
+      info: { title: 'BOOKS API', version: 'V1' },
       components: {
         schemas: {
           registration: {
             type: :object,
             properties: {
               user: {
-                name: :string,
-                email: :string,
-                password: :string
+                type: :object,
+                properties: {
+                  name: { type: :string },
+                  email: { type: :string },
+                  password: { type: :string }
+                },
+                required: %w[name email password]
               }
             },
-            required: %w[name email password]
+            required: %i[user]
           },
           session: {
             type: :object,
             properties: {
               user: {
-                email: :string,
-                password: :string
+                type: :object,
+                properties: {
+                  email: { type: :string },
+                  password: { type: :string }
+                },
+                required: %w[email password]
               }
             },
-            required: %w[email password]
+            required: %i[user]
+          },
+          user: {
+            type: :object,
+            properties: {
+              user: {
+                type: :object,
+                properties: {
+                  name: { type: :string },
+                  bio: { type: :string },
+                  icon: { type: :integer },
+                  password: { type: :string }
+                }
+              }
+            },
+            required: %i[user]
           },
           book: {
             type: :object,
             properties: {
               book: {
-                title: :string,
-                author: :string,
-                category: :string,
-                current_chapter: :string,
-                num_of_pages: :integer,
-                current_page: :integer
+                type: :object,
+                properties: {
+                  title: { type: :string },
+                  author: { type: :string },
+                  category: { type: :string },
+                  current_chapter: { type: :string },
+                  num_of_pages: { type: :integer },
+                  current_page: { type: :integer }
+                },
+                required: %w[
+                  title author category current_chapter num_of_pages current_page
+                ]
               }
             },
-            required: %w[title author category current_chapter num_of_pages current_page]
+            required: %i[book]
           }
         },
         securitySchemes: {
@@ -53,9 +82,9 @@ RSpec.configure do |config|
       paths: {},
       servers: [
         {
-          url: 'https://{defaultHost}',
+          url: 'http://{defaultHost}',
           variables: {
-            defaultHost: { default: 'www.example.com' }
+            defaultHost: { default: 'localhost:3000' }
           }
         }
       ]
