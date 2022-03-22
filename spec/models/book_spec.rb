@@ -5,7 +5,7 @@ RSpec.describe Book, type: :model do
     @user = User.create(
       name: 'Average HP Fan',
       bio: 'I love fantasy books!',
-      icon: 0,
+      icon: 7,
       email: 'hp_fan@email.com',
       password: 'expeliarmus'
     )

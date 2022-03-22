@@ -7,6 +7,9 @@ class User < ApplicationRecord
   has_many :books, dependent: :destroy
 
   validates :name, presence: true, length: { maximum: 30 }
+  validates :email, presence: true
+  validates :password, presence: true, length: { minimum: 6, maximum: 16 }, on: :create
+  validates :password, length: { minimum: 6, maximum: 16 }, allow_nil: true, on: :update
   validates :bio, length: { maximum: 250 }
   validates :icon, presence: true,
                    numericality: { only_integer: true, greater_than_or_equal_to: 0, less_than_or_equal_to: 9 }

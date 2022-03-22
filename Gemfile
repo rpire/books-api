@@ -21,6 +21,9 @@ gem 'devise-jwt'
 # Use CanCanCan for user authorization
 gem 'cancancan'
 
+# User RSwag to test endpoints and document the API
+gem 'rswag'
+
 # Build JSON APIs with ease [https://github.com/rails/jbuilder]
 # gem "jbuilder"
 

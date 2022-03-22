@@ -14,10 +14,10 @@ class Api::UsersController < ApplicationController
   end
 
   def update
-    if @user.update(user_params)
-      render json: @user, status: :accepted
+    if current_user.role == 'admin'
+      edit(admin_params)
     else
-      render json: @user.errors, status: :unprocessable_entity
+      edit(user_params)
     end
   end
 
@@ -31,7 +31,19 @@ class Api::UsersController < ApplicationController
     @user = User.find(params[:id])
   end
 
+  def edit(params)
+    if @user.update(params)
+      render json: @user, status: :accepted
+    else
+      render json: @user.errors, status: :unprocessable_entity
+    end
+  end
+
   def user_params
-    params.require(:user).permit(:name, :bio, :icon, :email, :password)
+    params.require(:user).permit(:name, :bio, :icon, :password)
+  end
+
+  def admin_params
+    params.require(:user).permit(:name, :bio, :icon, :password, :role)
   end
 end

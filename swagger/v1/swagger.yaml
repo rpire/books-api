@@ -1,0 +1,245 @@
+---
+openapi: 3.0.1
+info:
+  title: BOOKS API
+  version: V1
+components:
+  schemas:
+    registration:
+      type: object
+      properties:
+        user:
+          type: object
+          properties:
+            name:
+              type: string
+            email:
+              type: string
+            password:
+              type: string
+          required:
+          - name
+          - email
+          - password
+      required:
+      - user
+    session:
+      type: object
+      properties:
+        user:
+          type: object
+          properties:
+            email:
+              type: string
+            password:
+              type: string
+          required:
+          - email
+          - password
+      required:
+      - user
+    user:
+      type: object
+      properties:
+        user:
+          type: object
+          properties:
+            name:
+              type: string
+            bio:
+              type: string
+            icon:
+              type: integer
+            password:
+              type: string
+      required:
+      - user
+    book:
+      type: object
+      properties:
+        book:
+          type: object
+          properties:
+            title:
+              type: string
+            author:
+              type: string
+            category:
+              type: string
+            current_chapter:
+              type: string
+            num_of_pages:
+              type: integer
+            current_page:
+              type: integer
+          required:
+          - title
+          - author
+          - category
+          - current_chapter
+          - num_of_pages
+          - current_page
+      required:
+      - book
+  securitySchemes:
+    bearer_auth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
+paths:
+  "/api/books":
+    get:
+      summary: List the current user's books
+      tags:
+      - Books
+      security:
+      - bearer_auth: []
+      responses:
+        '200':
+          description: successful
+    post:
+      summary: Create a new book
+      tags:
+      - Books
+      security:
+      - bearer_auth: []
+      parameters: []
+      responses:
+        '201':
+          description: successful
+      requestBody:
+        content:
+          application/json:
+            schema:
+              "$ref": "#/components/schemas/book"
+  "/api/books/{id}":
+    parameters:
+    - name: id
+      in: path
+      description: Book's ID
+      required: true
+      schema:
+        type: integer
+    get:
+      summary: Display information of the book with the provided ID
+      tags:
+      - Books
+      security:
+      - bearer_auth: []
+      responses:
+        '200':
+          description: successful
+    put:
+      summary: Edit information of the book with the provided ID
+      tags:
+      - Books
+      security:
+      - bearer_auth: []
+      parameters: []
+      responses:
+        '202':
+          description: successful
+      requestBody:
+        content:
+          application/json:
+            schema:
+              "$ref": "#/components/schemas/book"
+    delete:
+      summary: Delete the book with the provided ID
+      tags:
+      - Books
+      security:
+      - bearer_auth: []
+      responses:
+        '204':
+          description: successful
+        '401':
+          description: unathorized
+  "/api/users":
+    get:
+      summary: List all users (reseved for admin accounts)
+      tags:
+      - Users
+      security:
+      - bearer_auth: []
+      responses:
+        '200':
+          description: successful
+  "/api/users/{id}":
+    parameters:
+    - name: id
+      in: path
+      description: User's ID
+      required: true
+      schema:
+        type: string
+    get:
+      summary: Display information of the user with the provided ID
+      tags:
+      - Users
+      security:
+      - bearer_auth: []
+      responses:
+        '200':
+          description: successful
+    put:
+      summary: Edit the information of the user with the provided ID
+      tags:
+      - Users
+      security:
+      - bearer_auth: []
+      parameters: []
+      responses:
+        '202':
+          description: successful
+      requestBody:
+        content:
+          application/json:
+            schema:
+              "$ref": "#/components/schemas/user"
+    delete:
+      summary: Delete the user with the provided ID
+      tags:
+      - Users
+      security:
+      - bearer_auth: []
+      responses:
+        '204':
+          description: successful
+  "/api/signup":
+    post:
+      summary: Register a new user
+      tags:
+      - Registrations
+      parameters: []
+      responses:
+        '200':
+          description: successful
+      requestBody:
+        content:
+          application/json:
+            schema:
+              "$ref": "#components/schemas/registration"
+  "/api/login":
+    post:
+      summary: Log into a new session
+      tags:
+      - Sessions
+      parameters: []
+      responses:
+        '200':
+          description: successful
+          headers:
+            Authorization:
+              type: string
+              description: Bearer token in JWT format
+      requestBody:
+        content:
+          application/json:
+            schema:
+              "$ref": "#components/schemas/session"
+servers:
+- url: http://{defaultHost}
+  variables:
+    defaultHost:
+      default: localhost:3000
